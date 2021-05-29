@@ -125,7 +125,17 @@ public class Search_Item extends javax.swing.JPanel {
     private void lbTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbTextMouseClicked
         eventClick.actionPerformed(null);
     }//GEN-LAST:event_lbTextMouseClicked
+    public String getText() {
+        return lbText.getText();
+    }
 
+    public void setSelected(boolean act) {
+        if (act) {
+            setBackground(new Color(215, 216, 216));
+        } else {
+            setBackground(Color.WHITE);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lbIcon;

@@ -7,6 +7,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,6 +79,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
             }
@@ -107,20 +111,35 @@ public class Main extends javax.swing.JFrame {
     private void txtSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSearchMouseClicked
         if (search.getItemSize() > 0) {
             menu.show(txtSearch, 0, txtSearch.getHeight());
+            search.clearSelected();
         }
     }//GEN-LAST:event_txtSearchMouseClicked
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        String text = txtSearch.getText().trim().toLowerCase();
-        search.setData(search(text));
-        if (search.getItemSize() > 0) {
-            //  * 2 top and bot border
-            menu.show(txtSearch, 0, txtSearch.getHeight());
-            menu.setPopupSize(menu.getWidth(), (search.getItemSize() * 35) + 2);
-        } else {
-            menu.setVisible(false);
+        if (evt.getKeyCode() != KeyEvent.VK_UP && evt.getKeyCode() != KeyEvent.VK_DOWN && evt.getKeyCode() != KeyEvent.VK_ENTER) {
+            String text = txtSearch.getText().trim().toLowerCase();
+            search.setData(search(text));
+            if (search.getItemSize() > 0) {
+                //  * 2 top and bot border
+                menu.show(txtSearch, 0, txtSearch.getHeight());
+                menu.setPopupSize(menu.getWidth(), (search.getItemSize() * 35) + 2);
+            } else {
+                menu.setVisible(false);
+            }
         }
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_UP) {
+            search.keyUp();
+        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            search.keyDown();
+        } else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String text = search.getSelectedText();
+            txtSearch.setText(text);
+            menu.setVisible(false);
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     private List<DataSearch> search(String search) {
         List<DataSearch> list = new ArrayList<>();
